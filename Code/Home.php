@@ -98,6 +98,7 @@ $viewer = new viewer;
 
 echo "<div class='container'>
 <form action=\"Home.php\" method=\"post\">
+  <label for=\"record_id\"></label>
   <label for=\"customer_id\"></ID>
   <label for=\"salutation\"></label>
   <label for=\"customer_first_name\"></label>
@@ -114,8 +115,10 @@ echo "<div class='container'>
   <label for=\"country\"></label>
   <button type=\"submit\" name=\"Action\" value=\"Submit\" class=\"button\">Filter</button>
   <button type=\"submit\" class=\"button\" formaction=\"AddMember.php\">Add Member</button>
+  <button type=\"submit\" class=\"button\" formaction=\"RemoveMember.php\">Remove Member</button>
 
 <table><tr>
+<th></th>
 <th>ID<br>
 <input type=\"integer\" id=\"customer_id\" name=\"customer_id\"<br></th>
 <th>Salutation<br>

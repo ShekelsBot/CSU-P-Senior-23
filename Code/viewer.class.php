@@ -13,7 +13,7 @@ class viewer{
 
           //Add to query for each piece of data
           foreach($_POST as $key=>$value){
-              if ($value != '' && $value != 'Submit') {
+              if ($value != '' && $value != 'Submit' && $key != 'record_id') {
                   $mysql .= $key.= "= '$value' AND ";
               }
           }
@@ -31,7 +31,11 @@ class viewer{
       if ($result->num_rows > 0) {
           // output data of each row
           while($row = $result->fetch_assoc()) {
-              echo "<tr>";
+              echo "<tr>
+              <td>
+              <input type=\"radio\" id=\"record_id\" name=\"record_id\" value=\"" . $row["customer_id"]."\">
+              <br>
+              </td>";
           echo "<td>" . $row["customer_id"]. "</td>";
           echo "<td>" . $row["salutation"]. "</td>";
           echo "<td>" . $row["customer_first_name"]. "</td>";
@@ -74,7 +78,7 @@ class viewer{
       country) VALUES ('";
 
       foreach($_POST as $key=>$value){
-        if ($value != '' && $value != 'Submit') {
+        if ($value != '' && $value != 'Submit' && $key != 'record_id') {
             $mysql .= $value."', '";
         }
       }
@@ -86,6 +90,23 @@ class viewer{
       //Debug
       echo '<br><br>'.$mysql;
 
+      //Run query
+      $result = $conn->query($mysql);
+    }
+
+    function removeMember($name, $conn) {
+      $mysql = "DELETE FROM customers WHERE customer_id=";
+
+        foreach($_POST as $key=>$value){
+          //Add record id to DELETE query
+          if ($key == 'record_id') {
+              $mysql .= $value;
+          }
+        }
+     
+      //Debug
+      echo $mysql."<br><br><br><br><br>";
+      
       //Run query
       $result = $conn->query($mysql);
     }

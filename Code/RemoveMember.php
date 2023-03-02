@@ -150,7 +150,7 @@ echo "<div class='container'>
 
 </form>";
 
-$viewer->addMember($dbname, $conn);
+$viewer->removeMember($dbname, $conn);
 
 echo '<br>';
 $viewer->home($conn);
