@@ -151,6 +151,9 @@ echo "<br><br><div class='container'>
 
 </form>";
 
+$viewer->editMember($dbname, $conn);
+
+echo '<br>';
 $viewer->home($conn);
 
 ?>

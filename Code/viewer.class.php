@@ -110,5 +110,32 @@ class viewer{
       //Run query
       $result = $conn->query($mysql);
     }
+
+    function editMember($name, $conn) {
+      $mysql = "UPDATE customers SET ";
+
+      foreach($_POST as $key=>$value){
+        if ($value != '' && $value != 'Submit' && $key != 'record_id') {
+            $mysql .= $key." = '".$value."', ";
+        }
+      }
+
+      //Delete trailing characters
+      $mysql = rtrim($mysql, ", ");
+
+      //Where condition
+      $mysql .= "WHERE customer_id=";
+        foreach($_POST as $key=>$value){
+          //Loop through POSTed values to find customer id
+          if ($key == 'record_id') {
+              $mysql .= $value;
+          }
+        }
+      //Debug
+      echo '<br><br>'.$mysql;
+
+      //Run query
+      $result = $conn->query($mysql);
+    }
 }
 ?>

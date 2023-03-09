@@ -96,7 +96,7 @@ $result = $conn->query($mysql);
 
 $viewer = new viewer;
 
-echo "<div class='container'>
+echo "<br><br><div class='container'>
 <form action=\"Home.php\" method=\"post\">
   <label for=\"record_id\"></label>
   <label for=\"customer_id\"></ID>
@@ -116,6 +116,7 @@ echo "<div class='container'>
   <button type=\"submit\" name=\"Action\" value=\"Submit\" class=\"button\">Filter</button>
   <button type=\"submit\" class=\"button\" formaction=\"AddMember.php\">Add Member</button>
   <button type=\"submit\" class=\"button\" formaction=\"RemoveMember.php\">Remove Member</button>
+  <button type=\"submit\" class=\"button\" formaction=\"EditMember.php\">Edit Information</button>
 
 <table><tr>
 <th></th>
