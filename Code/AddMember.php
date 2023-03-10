@@ -80,7 +80,7 @@ echo "<ul><title>Membership Database</title></ul>";
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "cis411";
+$dbname = "members";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -90,66 +90,13 @@ if ($conn->connect_error) {
 }
 
 $mysql = "SELECT * 
-    FROM customers";
+    FROM ledgers";
 
 $result = $conn->query($mysql);
 
 $viewer = new viewer;
 
-echo "<br><br><div class='container'>
-<form action=\"Home.php\" method=\"post\">
-  <label for=\"record_id\"></label>
-  <label for=\"customer_id\"></ID>
-  <label for=\"salutation\"></label>
-  <label for=\"customer_first_name\"></label>
-  <label for=\"customer_middle_initial\"></label>
-  <label for=\"customer_last_name\"></label>
-  <label for=\"gender\"></label>
-  <label for=\"email_address\"></label>
-  <label for=\"login_name\"></label>
-  <label for=\"login_password\"></label>
-  <label for=\"phone_number\"></label>
-  <label for=\"address\"></label>
-  <label for=\"town_city\"></label>
-  <label for=\"county\"></label>
-  <label for=\"country\"></label>
-  <button type=\"submit\" name=\"Action\" value=\"Submit\" class=\"button\">Filter</button>
-  <button type=\"submit\" class=\"button\" formaction=\"AddMember.php\">Add Member</button>
-  <button type=\"submit\" class=\"button\" formaction=\"RemoveMember.php\">Remove Member</button>
-  <button type=\"submit\" class=\"button\" formaction=\"EditMember.php\">Edit Information</button>
-
-<table><tr>
-<th></th>
-<th>ID<br>
-<input type=\"integer\" id=\"customer_id\" name=\"customer_id\"<br></th>
-<th>Salutation<br>
-<input type=\"text\" id=\"salutation\" name=\"salutation\"<br></th>
-<th>First Name<br>
-<input type=\"text\" id=\"customer_first_name\" name=\"customer_first_name\"><br></th>
-<th>Middle Initial<br>
-<input type=\"text\" id=\"customer_middle_initial\" name=\"customer_middle_initial\"<br></th>
-<th>Last Name<br>
-<input type=\"text\" id=\"customer_last_name\" name=\"customer_last_name\"><br></th>
-<th>Gender
-<input type=\"text\" id=\"gender\" name=\"gender\"<br></th>
-<th>Email Address<br>
-<input type=\"email_address\" name=\"email_address\"/>
-<th>Username<br>
-<input type=\"text\" id=\"login_name\" name=\"login_name\"<br></th>
-<th>Password<br>
-<input type=\"text\" id=\"login_password\" name=\"login_password\"<br></th>
-<th>Phone
-<input type=\"text\" id=\"phone_number\" name=\"phone_number\"<br></th>
-<th>Address
-<input type=\"text\" id=\"address\" name=\"address\"<br></th>
-<th>City
-<input type=\"text\" id=\"town_city\" name=\"town_city\"<br></th>
-<th>County
-<input type=\"text\" id=\"county\" name=\"county\"<br></th>
-<th>Country
-<input type=\"text\" id=\"country\" name=\"country\"<br></th>
-
-</form>";
+$viewer->header();
 
 $viewer->addMember($dbname, $conn);
 
