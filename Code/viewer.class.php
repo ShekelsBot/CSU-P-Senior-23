@@ -108,35 +108,45 @@ class viewer{
     //addMember needs every field filled in to function properly.
     //If it has every required field, it creates a new record with the data passed via POST.
     function addMember($name, $conn) {
-      $mysql = "INSERT INTO ledgers 
-      (member_id,
-      last_name,
-      first_name,
-      full_name,
-      email,
-      phone_number,
-      receipt,
-      amount,
-      renewalDate,
-      level,
-      reason) VALUES ('";
-
-      foreach($_POST as $key=>$value){
-        if ($value != '' && $value != 'Submit' && $key != 'record_id') {
-            $mysql .= $value."', '";
-        }
+      // Check if all required fields are present
+      $required_fields = array('member_id', 'last_name', 'first_name', 'full_name', 'email', 'phone_number', 'receipt', 'amount', 'renewalDate', 'level', 'reason');
+      foreach($required_fields as $field){
+          if(!isset($_POST[$field]) || $_POST[$field] == ''){
+              echo "Error: $field is required.";
+              return;
+          }
       }
-
-      //Delete trailing characters and close parentheses
-      $mysql = rtrim($mysql, ", '");
-      $mysql .= '\')';
-
-      //Debug
-      echo '<br><br>'.$mysql;
-
-      //Run query
-      $result = $conn->query($mysql);
-    }
+  
+      // All required fields are present, insert new record
+      $mysql = "INSERT INTO ledgers 
+          (member_id,
+          last_name,
+          first_name,
+          full_name,
+          email,
+          phone_number,
+          receipt,
+          amount,
+          renewalDate,
+          level,
+          reason) VALUES ('";
+  
+      foreach($_POST as $key=>$value){
+          if ($value != '' && $value != 'Submit' && $key != 'record_id') {
+              $mysql .= $value . "', '";
+          }
+      }
+  
+      $mysql = rtrim($mysql, "', '");
+      $mysql .= "')";
+  
+      if ($conn->query($mysql) === TRUE) {
+          echo "New record created successfully";
+      } else {
+          echo "Error: " . $mysql . "<br>" . $conn->error;
+      }
+  }
+  
 
     function removeMember($name, $conn) {
       $mysql = "DELETE FROM ledgers WHERE member_id=";
