@@ -42,7 +42,9 @@ class viewer{
     <input type=\"text\" id=\"receipt\" name=\"receipt\"/>
     <th>Amount<br>
     <input type=\"text\" id=\"amount\" name=\"amount\"<br></th>
-    <th>renewalDate<br>
+    <th>Join Date (yyyy-mm-dd)<br>
+    <input type=\"text\" id=\"joinDate\" name=\"joinDate\"<br></th>
+    <th>Renewal Date (yyyy-mm-dd)<br>
     <input type=\"text\" id=\"renewalDate\" name=\"renewalDate\"<br></th>
     <th>Level<br>
     <input type=\"text\" id=\"level\" name=\"level\"<br></th>
@@ -94,6 +96,7 @@ class viewer{
           echo "<td>" . $row["phone_number"]. "</td>";
           echo "<td>" . $row["receipt"]. "</td>";
           echo "<td>" . $row["amount"]. "</td>";
+          echo "<td>" . $row["joinDate"]. "</td>";
           echo "<td>" . $row["renewalDate"]. "</td>";
           echo "<td>" . $row["level"]. "</td>";
           echo "<td>" . $row["reason"]. "</td>";
@@ -117,6 +120,7 @@ class viewer{
       phone_number,
       receipt,
       amount,
+      joinDate,
       renewalDate,
       level,
       reason) VALUES ('";
