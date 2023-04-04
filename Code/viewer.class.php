@@ -78,7 +78,7 @@ class viewer{
     $mysql .= "2=2 LIMIT 100";
   
     //Debug
-    echo $mysql."<br><br><br><br><br>";
+    //echo $mysql."<br><br><br><br><br>";
   
     //Run query
     $result = $conn->query($mysql);
@@ -149,7 +149,7 @@ class viewer{
       $mysql .= '\')';
 
       //Debug
-      echo '<br><br>'.$mysql;
+      //echo '<br><br>'.$mysql;
 
       //Run query
       $result = $conn->query($mysql);
@@ -166,7 +166,7 @@ class viewer{
         }
      
       //Debug
-      echo $mysql."<br><br><br><br><br>";
+      //echo $mysql."<br><br><br><br><br>";
       
       //Run query
       $result = $conn->query($mysql);
@@ -193,7 +193,7 @@ class viewer{
           }
         }
       //Debug
-      echo '<br><br>'.$mysql;
+      //echo '<br><br>'.$mysql;
 
       //Run query
       $result = $conn->query($mysql);
