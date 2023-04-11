@@ -18,12 +18,10 @@ class viewer{
       <label for=\"renewalDate\"></label>
       <label for=\"level\"></label>
       <label for=\"reason\"></label>
-
       <button type=\"submit\" name=\"Action\" value=\"Submit\" class=\"button\">Filter</button>
       <button type=\"submit\" class=\"button\" formaction=\"AddMember.php\">Add Member</button>
       <button type=\"submit\" class=\"button\" formaction=\"RemoveMember.php\">Remove Member</button>
       <button type=\"submit\" class=\"button\" formaction=\"EditMember.php\">Edit Information</button>
-
     <table><tr>
     <th></th>
     <th>ID<br>
@@ -50,7 +48,6 @@ class viewer{
     <input type=\"text\" id=\"level\" name=\"level\"<br></th>
     <th>Reason<br>
     <input type=\"text\" id=\"reason\" name=\"reason\"<br></th>
-
     </form>";
   }
 
@@ -58,55 +55,71 @@ class viewer{
   //The function filters based on requested parameters.
   function home($conn) {
 
+    // Define today's date
+    $today = date("Y-m-d");
+  
+    // Define renewal dates based on join date
+    $oneYear = date('Y-m-d', strtotime('+1 year'));
+    $oneMonth = date('Y-m-d', strtotime('+1 month'));
+  
     //First part of SQL query
-      $mysql = "SELECT * 
-          FROM ledgers 
-          WHERE ";
-
-          //Add to query for each piece of data
-          foreach($_POST as $key=>$value){
-              if ($value != '' && $value != 'Submit' && $key != 'record_id') {
-                  $mysql .= $key.= "= '$value' AND ";
-              }
-          }
-
-      //Finish sql statement, limit records to 100.
-      $mysql .= "2=2 LIMIT 100";
-      
-      //Debug
-      echo $mysql."<br><br><br><br><br>";
-      
-      //Run query
-      $result = $conn->query($mysql);
-
-      //Display data in HTML table rows
-      if ($result->num_rows > 0) {
-          // output data of each row
-          while($row = $result->fetch_assoc()) {
-              echo "<tr>
-              <td>
-              <input type=\"radio\" id=\"record_id\" name=\"record_id\" value=\"" . $row["member_id"]."\">
-              <br>
-              </td>";
-          echo "<td>" . $row["member_id"]. "</td>";
-          echo "<td>" . $row["last_name"]. "</td>";
-          echo "<td>" . $row["first_name"]. "</td>";
-          echo "<td>" . $row["full_name"]. "</td>";
-          echo "<td>" . $row["email"]. "</td>";
-          echo "<td>" . $row["phone_number"]. "</td>";
-          echo "<td>" . $row["receipt"]. "</td>";
-          echo "<td>" . $row["amount"]. "</td>";
-          echo "<td>" . $row["joinDate"]. "</td>";
-          echo "<td>" . $row["renewalDate"]. "</td>";
-          echo "<td>" . $row["level"]. "</td>";
-          echo "<td>" . $row["reason"]. "</td>";
-          echo "</tr>";"
-          }
-      } else {
-          echo '0 results'";
+    $mysql = "SELECT * 
+        FROM ledgers 
+        WHERE ";
+  
+    //Add to query for each piece of data
+    foreach($_POST as $key=>$value){
+        if ($value != '' && $value != 'Submit' && $key != 'record_id') {
+            $mysql .= $key.= "= '$value' AND ";
         }
-      }
     }
+  
+    //Finish sql statement, limit records to 100.
+    $mysql .= "2=2 LIMIT 100";
+  
+    //Debug
+    //echo $mysql."<br><br><br><br><br>";
+  
+    //Run query
+    $result = $conn->query($mysql);
+  
+    //Display data in HTML table rows
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+  
+            // Determine membership status based on join date
+            if ($row["joinDate"] < $today && $row["renewalDate"] < $today) {
+                $status = "red";
+            } elseif ($row["renewalDate"] < $oneMonth) {
+                $status = "yellow";
+            } else {
+                $status = "green";
+            }
+  
+            // Apply CSS styling to color-code row based on membership status
+            echo "<tr style='background-color:$status;'>";
+            echo "<td><input type=\"radio\" id=\"record_id\" name=\"record_id\" value=\"" . $row["member_id"]."\"></td>";
+            echo "<td>" . $row["member_id"]. "</td>";
+            echo "<td>" . $row["last_name"]. "</td>";
+            echo "<td>" . $row["first_name"]. "</td>";
+            echo "<td>" . $row["full_name"]. "</td>";
+            echo "<td>" . $row["email"]. "</td>";
+            echo "<td>" . $row["phone_number"]. "</td>";
+            echo "<td>" . $row["receipt"]. "</td>";
+            echo "<td>" . $row["amount"]. "</td>";
+            echo "<td>" . $row["joinDate"]. "</td>";
+            echo "<td>" . $row["renewalDate"]. "</td>";
+            echo "<td>" . $row["level"]. "</td>";
+            echo "<td>" . $row["reason"]. "</td>";
+            echo "<td>" . $status . "</td>";
+            echo "</tr>";
+        }
+    } else {
+        echo '0 results';
+    }
+  }
+  
 
     //addMember needs every field filled in to function properly.
     //If it has every required field, it creates a new record with the data passed via POST.
@@ -136,7 +149,7 @@ class viewer{
       $mysql .= '\')';
 
       //Debug
-      echo '<br><br>'.$mysql;
+      //echo '<br><br>'.$mysql;
 
       //Run query
       $result = $conn->query($mysql);
@@ -153,7 +166,7 @@ class viewer{
         }
      
       //Debug
-      echo $mysql."<br><br><br><br><br>";
+      //echo $mysql."<br><br><br><br><br>";
       
       //Run query
       $result = $conn->query($mysql);
@@ -180,7 +193,7 @@ class viewer{
           }
         }
       //Debug
-      echo '<br><br>'.$mysql;
+      //echo '<br><br>'.$mysql;
 
       //Run query
       $result = $conn->query($mysql);
